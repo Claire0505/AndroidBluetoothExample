@@ -4,4 +4,7 @@
     <string name="discoverable">Make discoverable</string>
     <string name="connect">Connect a device</string>
     <string name="receive">Receive</string>
+    <string name="pared_devices">配對設備</string>
+    <string name="other_available_devices">其他可用設備</string>
+    <string name="button_scan">Scan for devices</string>
 </resources>
