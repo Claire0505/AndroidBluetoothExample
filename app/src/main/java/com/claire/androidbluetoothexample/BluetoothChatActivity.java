@@ -9,12 +9,23 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class BluetoothChatActivity extends AppCompatActivity {
+    // ChatMessage types sent from the BluetoothChatService
+    public static final int MESSAGE_STATE_CHANGE = 1;
+    public static final int MESSAGE_READ = 2;
+    public static final int MESSAGE_WRITE = 3;
+    public static final int MESSAGE_DEVICE_NAME = 4;
+    public static final int MESSAGE_TOAST = 5;
+
+    // key names receive from the BluetoothChatService Handler
+    public static final String DEVICE_NAME = "device_name";
+    public static final String TOAST = "toast";
+
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private RecyclerViewMessageAdapter mAdapter;
 
-    private List<Message> messageList = new ArrayList<>();
+    private List<ChatMessage> chatMessageList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new RecyclerViewMessageAdapter(getBaseContext(),messageList);
+        mAdapter = new RecyclerViewMessageAdapter(getBaseContext(), chatMessageList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -37,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void testMessage() {
-        messageList.add(new Message(1,"Hello","Me"));
-        messageList.add(new Message(2,"Hello","Jacky"));
-        messageList.add(new Message(3,"This is an example about RecyclerView","Me"));
-        messageList.add(new Message(4,"Great news","Jacky"));
+        chatMessageList.add(new ChatMessage(1,"Hello","Me"));
+        chatMessageList.add(new ChatMessage(2,"Hello","Jacky"));
+        chatMessageList.add(new ChatMessage(3,"This is an example about RecyclerView","Me"));
+        chatMessageList.add(new ChatMessage(4,"Great news","Jacky"));
 
     }
 }

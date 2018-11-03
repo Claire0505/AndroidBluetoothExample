@@ -12,13 +12,13 @@ import java.util.List;
 
 public class RecyclerViewMessageAdapter extends RecyclerView.Adapter<RecyclerViewMessageAdapter.ViewHolder> {
 
-    private List<Message> messageList;
+    private List<ChatMessage> chatMessageList;
 
     public static final int SENDER = 0;
     public static final int RECIPENT = 1;
 
-    public RecyclerViewMessageAdapter(Context context, List<Message> messages){
-        messageList = messages;
+    public RecyclerViewMessageAdapter(Context context, List<ChatMessage> chatMessages){
+        chatMessageList = chatMessages;
     }
 
     @NonNull
@@ -37,7 +37,7 @@ public class RecyclerViewMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
-        viewHolder.mTextMessage.setText(messageList.get(position).getMessage());
+        viewHolder.mTextMessage.setText(chatMessageList.get(position).getMessage());
         viewHolder.mTextMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,20 +49,20 @@ public class RecyclerViewMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private void remove(int pos) {
         int position = pos;
-        messageList.remove(position);
+        chatMessageList.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, messageList.size());
+        notifyItemRangeChanged(position, chatMessageList.size());
     }
 
     @Override
     public int getItemCount() {
-        return messageList.size();
+        return chatMessageList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        Message message = messageList.get(position);
-        if (message.getSenderName().equals("Me")){
+        ChatMessage chatMessage = chatMessageList.get(position);
+        if (chatMessage.getSenderName().equals("Me")){
             return SENDER;
         }else {
             return RECIPENT;

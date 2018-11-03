@@ -1,11 +1,11 @@
 package com.claire.androidbluetoothexample;
 
-public class Message {
+public class ChatMessage {
     private int id;
     private String message;
     private String senderName;
 
-    public Message(int id, String message, String senderName) {
+    public ChatMessage(int id, String message, String senderName) {
         this.id = id;
         this.message = message;
         this.senderName = senderName;
