@@ -3,4 +3,5 @@
     <string name="send">Send</string>
     <string name="discoverable">Make discoverable</string>
     <string name="connect">Connect a device</string>
+    <string name="receive">Receive</string>
 </resources>
