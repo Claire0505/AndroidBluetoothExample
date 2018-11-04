@@ -62,6 +62,7 @@ public class BluetoothChatActivity extends AppCompatActivity {
     private RecyclerViewMessageAdapter mAdapter;
 
     private List<ChatMessage> chatMessageList = new ArrayList<>();
+    private ChatMessage chatMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,8 +199,10 @@ public class BluetoothChatActivity extends AppCompatActivity {
                     byte[] writeBuf = (byte[])msg.obj;
                     // construct a string from the buffer (從緩衝區構造一個字符串)
                     String writeMessage = new String(writeBuf);
-                    mAdapter.notifyDataSetChanged();;
+                    mAdapter.notifyDataSetChanged();
                     chatMessageList.add(new ChatMessage(counter++, writeMessage, "Me"));
+                    //無論何時添加新數據，都需要使用scrollToPosition方法滾動到底部
+                    mRecyclerView.scrollToPosition(mAdapter.getItemCount() -1);
                     break;
                 case MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
@@ -207,6 +210,8 @@ public class BluetoothChatActivity extends AppCompatActivity {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     mAdapter.notifyDataSetChanged();
                     chatMessageList.add(new ChatMessage(counter++, readMessage, mConnectedDeviceName));
+                    //無論何時添加新數據，都需要使用scrollToPosition方法滾動到底部
+                    mRecyclerView.scrollToPosition(mAdapter.getItemCount() -1);
                     break;
                 case MESSAGE_DEVICE_NAME:
                     // save the connected device's name
@@ -263,9 +268,14 @@ public class BluetoothChatActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setStackFromEnd(true);
+
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+
         mAdapter = new RecyclerViewMessageAdapter(getBaseContext(), chatMessageList);
+        //mRecyclerView.scrollToPosition(chatMessageList.size() - 1);
+
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
