@@ -65,6 +65,7 @@
 
         <Button
             android:id="@+id/btnConnect"
+            android:onClick="connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -72,6 +73,7 @@
 
         <Button
             android:id="@+id/btnDiscoverable"
+            android:onClick="discoverable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
