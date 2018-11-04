@@ -316,10 +316,12 @@ public class BluetoothChatService {
             mAdapter.cancelDiscovery();
             // Make a connection to the BluetoothSocket
             try {
+                // This is a blocking call and will only return a
+                // successful connection or an exception
                 mmSocket.connect();
             } catch (IOException e) {
+
                 connectionFailed();
-                e.printStackTrace();
                 // Close the socket
                 try {
                     mmSocket.close();
@@ -381,7 +383,9 @@ public class BluetoothChatService {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(BluetoothChatActivity.MESSAGE_READ, bytes, -1,buffer);
+                    mHandler.obtainMessage(BluetoothChatActivity.MESSAGE_READ, bytes, -1,buffer)
+                            .sendToTarget();
+
                 } catch (IOException e) {
                     connectionLost();
                     break;
@@ -398,6 +402,7 @@ public class BluetoothChatService {
                 // Share the sent message back to the UI Activity
                 mHandler.obtainMessage(BluetoothChatActivity.MESSAGE_WRITE,-1,-1, buffer)
                         .sendToTarget();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

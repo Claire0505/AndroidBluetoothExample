@@ -3,6 +3,7 @@ package com.claire.androidbluetoothexample;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -14,7 +15,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -64,7 +67,12 @@ public class BluetoothChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         setRecyclerView();
+
+        //keyboard hidden
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         
         // If the adapter is null, the Bluetooth is not supported
@@ -134,6 +142,10 @@ public class BluetoothChatActivity extends AppCompatActivity {
                 TextView textView = findViewById(R.id.editText_out);
                 String message = textView.getText().toString();
                 sendMessage(message);
+
+                //送出後將keyboard hidden
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         });
 
@@ -257,7 +269,7 @@ public class BluetoothChatActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        testMessage();
+        //testMessage();
     }
 
     private void testMessage() {
