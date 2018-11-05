@@ -1,12 +1,16 @@
 package com.claire.androidbluetoothexample;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -62,12 +66,21 @@ public class BluetoothChatActivity extends AppCompatActivity {
     private RecyclerViewMessageAdapter mAdapter;
 
     private List<ChatMessage> chatMessageList = new ArrayList<>();
-    private ChatMessage chatMessage;
+
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        PERMISSION_REQUEST_COARSE_LOCATION);
+            }
+        }
 
         setRecyclerView();
 
@@ -252,6 +265,7 @@ public class BluetoothChatActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     finish();
                 }
+
         }
     }
 
@@ -288,5 +302,16 @@ public class BluetoothChatActivity extends AppCompatActivity {
         chatMessageList.add(new ChatMessage(3,"This is an example about RecyclerView","Me"));
         chatMessageList.add(new ChatMessage(4,"Great news","Jacky"));
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case PERMISSION_REQUEST_COARSE_LOCATION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                }
+                break;
+        }
     }
 }
